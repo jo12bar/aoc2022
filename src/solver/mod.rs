@@ -1,0 +1,87 @@
+use std::{collections::HashMap, fmt, fs, io};
+
+use crate::challenge::{ChallengeNumber, Subchallenge};
+
+mod solver01;
+
+/// A solver for a single challenge.
+///
+/// Must be able to handle solving both subchallenges.
+trait ChallengeSolver: fmt::Debug {
+    /// The challenge number that this solver is written for.
+    fn challenge_number(&self) -> ChallengeNumber;
+
+    /// Solve subchallenge A.
+    fn solve_a(&mut self, input: io::BufReader<fs::File>) -> color_eyre::Result<()>;
+
+    /// Solve subchallenge B.
+    fn solve_b(&mut self, input: io::BufReader<fs::File>) -> color_eyre::Result<()>;
+}
+
+type DynamicChallengeSolver = Box<dyn ChallengeSolver>;
+
+pub struct Solver {
+    challenge_solvers: HashMap<ChallengeNumber, DynamicChallengeSolver>,
+}
+
+impl Solver {
+    pub fn new() -> Self {
+        macro_rules! build_solver_list {
+            [$($solver_ty:ty),*] => {
+                vec![
+                    $(
+                        Box::new(<$solver_ty as Default>::default()),
+                    )*
+                ]
+            };
+        }
+
+        let solvers: Vec<DynamicChallengeSolver> = build_solver_list![solver01::Solver01];
+
+        let mut challenge_solvers = HashMap::new();
+
+        for solver in solvers {
+            let challenge_number = solver.challenge_number();
+            let previous = challenge_solvers.insert(challenge_number, solver);
+
+            assert!(
+                previous.is_none(),
+                "Tried to load a duplicate solver for challenge {}",
+                challenge_number,
+            );
+        }
+
+        Self { challenge_solvers }
+    }
+
+    pub fn solve(
+        &mut self,
+        challenge: ChallengeNumber,
+        subchallenge: Subchallenge,
+        input: io::BufReader<fs::File>,
+    ) -> Result<(), SolveError> {
+        if let Some(solver) = self.challenge_solvers.get_mut(&challenge) {
+            match subchallenge {
+                Subchallenge::A => Ok(solver.solve_a(input)?),
+                Subchallenge::B => Ok(solver.solve_b(input)?),
+            }
+        } else {
+            Err(SolveError::NoSolverLoaded(challenge))
+        }
+    }
+}
+
+impl Default for Solver {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
+#[derive(Debug, thiserror::Error)]
+pub enum SolveError {
+    #[error("No solver loaded for challenge {0}.")]
+    NoSolverLoaded(ChallengeNumber),
+
+    #[error(transparent)]
+    SolverExecutionError(#[from] color_eyre::Report),
+}
