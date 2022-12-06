@@ -4,6 +4,7 @@ use crate::challenge::{ChallengeNumber, Subchallenge};
 
 mod solver01;
 mod solver02;
+mod solver03;
 
 /// A solver for a single challenge.
 ///
@@ -38,7 +39,7 @@ impl Solver {
         }
 
         let solvers: Vec<DynamicChallengeSolver> =
-            build_solver_list![solver01::Solver01, solver02::Solver02];
+            build_solver_list![solver01::Solver01, solver02::Solver02, solver03::Solver03];
 
         let mut challenge_solvers = HashMap::new();
 
