@@ -3,6 +3,7 @@ use std::path::PathBuf;
 use color_eyre::{eyre::Context, Help};
 
 mod challenge;
+mod grid;
 mod solver;
 
 /// Help text to display when we receive `-h` or `--help` on the command line.

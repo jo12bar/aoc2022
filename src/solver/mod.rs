@@ -9,6 +9,7 @@ mod solver04;
 mod solver05;
 mod solver06;
 mod solver07;
+mod solver08;
 
 /// A solver for a single challenge.
 ///
@@ -36,7 +37,7 @@ impl Solver {
             [$($solver_ty:ty),* $(,)?] => {
                 vec![
                     $(
-                        Box::new(<$solver_ty as Default>::default()),
+                        Box::<$solver_ty>::default(),
                     )*
                 ]
             };
@@ -50,6 +51,7 @@ impl Solver {
             solver05::Solver05,
             solver06::Solver06,
             solver07::Solver07,
+            solver08::Solver08,
         ];
 
         let mut challenge_solvers = HashMap::new();
