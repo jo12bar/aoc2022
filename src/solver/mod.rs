@@ -14,6 +14,7 @@ mod solver09;
 mod solver10;
 mod solver11;
 mod solver12;
+mod solver13;
 
 /// A solver for a single challenge.
 ///
@@ -60,6 +61,7 @@ impl Solver {
             solver10::Solver10,
             solver11::Solver11,
             solver12::Solver12,
+            solver13::Solver13,
         ];
 
         let mut challenge_solvers = HashMap::new();
