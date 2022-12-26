@@ -25,9 +25,9 @@ impl From<(usize, usize)> for GridCoord {
 
 /// A 2D grid of arbitrary values with a constant width and height.
 pub(crate) struct Grid<T> {
-    width: usize,
-    height: usize,
-    data: Vec<T>,
+    pub(crate) width: usize,
+    pub(crate) height: usize,
+    pub(crate) data: Vec<T>,
 }
 
 impl<T> Grid<T>
@@ -47,7 +47,7 @@ where
 }
 
 impl<T> Grid<T> {
-    const fn in_bounds(&self, coord: GridCoord) -> bool {
+    pub(crate) const fn in_bounds(&self, coord: GridCoord) -> bool {
         coord.x < self.width && coord.y < self.height
     }
 
@@ -81,5 +81,34 @@ impl<T> Grid<T> {
     #[inline]
     pub(crate) const fn height(&self) -> usize {
         self.height
+    }
+
+    pub(crate) const fn num_cells(&self) -> usize {
+        self.width * self.height
+    }
+}
+
+impl<T> fmt::Debug for Grid<T>
+where
+    T: fmt::Debug,
+{
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        if f.alternate() {
+            writeln!(f, "{}x{} grid:", self.width, self.height)?;
+            for y in 0..self.height {
+                for x in 0..self.width {
+                    let cell = self.cell((x, y).into()).unwrap();
+                    cell.fmt(f)?;
+                }
+                writeln!(f)?;
+            }
+        } else {
+            f.debug_struct(&format!("Grid<{}>", std::any::type_name::<T>()))
+                .field("width", &self.width)
+                .field("height", &self.height)
+                .finish_non_exhaustive()?;
+        }
+
+        Ok(())
     }
 }
