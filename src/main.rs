@@ -2,6 +2,7 @@ use std::path::PathBuf;
 
 use color_eyre::{eyre::Context, Help};
 
+mod atomic;
 mod challenge;
 mod grid;
 mod solver;
