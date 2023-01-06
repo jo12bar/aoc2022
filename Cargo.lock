@@ -143,6 +143,7 @@ dependencies = [
  "nom-supreme",
  "nom_locate",
  "once_cell",
+ "owo-colors",
  "pico-args",
  "regex",
  "serde",
