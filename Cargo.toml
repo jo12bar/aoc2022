@@ -17,6 +17,7 @@ genawaiter = { version = "0.99.1", default-features = false }
 id_tree = "1.8.0"
 itertools = "0.10.5"
 miette = { version = "5.5.0", features = ["fancy"] }
+nalgebra-glm = "0.17.0"
 nom = "7.1.1"
 nom-supreme = "0.8.0"
 nom_locate = "4.0.0"
