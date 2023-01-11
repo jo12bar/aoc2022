@@ -1,7 +1,6 @@
 use std::{
     fmt,
-    fs::File,
-    io::{BufReader, Read},
+    io::BufRead,
     ops::{Deref, DerefMut},
     sync::{
         atomic::{AtomicBool, AtomicUsize, Ordering},
@@ -42,7 +41,7 @@ impl ChallengeSolver for Solver14 {
         14
     }
 
-    fn solve_a(&mut self, mut input: BufReader<File>) -> color_eyre::Result<()> {
+    fn solve_a(&mut self, input: &mut dyn BufRead) -> super::ChallengeSolverResult {
         let mut input_buf = String::new();
         input
             .read_to_string(&mut input_buf)
@@ -90,10 +89,10 @@ impl ChallengeSolver for Solver14 {
             Box::new(move |cc| Box::new(App::new(cc, grid))),
         );
 
-        Ok(())
+        Ok(Box::new(()))
     }
 
-    fn solve_b(&mut self, mut input: BufReader<File>) -> color_eyre::Result<()> {
+    fn solve_b(&mut self, input: &mut dyn BufRead) -> super::ChallengeSolverResult {
         let mut input_buf = String::new();
         input
             .read_to_string(&mut input_buf)
@@ -141,7 +140,7 @@ impl ChallengeSolver for Solver14 {
             Box::new(move |cc| Box::new(App::new(cc, grid))),
         );
 
-        Ok(())
+        Ok(Box::new(()))
     }
 }
 

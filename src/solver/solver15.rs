@@ -1,11 +1,6 @@
 mod parse;
 
-use std::{
-    collections::HashSet,
-    fs::File,
-    io::{BufReader, Read},
-    ops::RangeInclusive,
-};
+use std::{collections::HashSet, io::BufRead, ops::RangeInclusive};
 
 use color_eyre::eyre::Context;
 use itertools::Itertools;
@@ -22,7 +17,7 @@ impl ChallengeSolver for Solver15 {
         15
     }
 
-    fn solve_a(&mut self, mut input: BufReader<File>) -> color_eyre::Result<()> {
+    fn solve_a(&mut self, input: &mut dyn BufRead) -> super::ChallengeSolverResult {
         let mut input_buf = String::new();
         input
             .read_to_string(&mut input_buf)
@@ -34,10 +29,10 @@ impl ChallengeSolver for Solver15 {
         let y = 2_000_000;
         dbg!(map.num_impossible_beacon_positions(y));
 
-        Ok(())
+        Ok(Box::new(()))
     }
 
-    fn solve_b(&mut self, mut input: BufReader<File>) -> color_eyre::Result<()> {
+    fn solve_b(&mut self, input: &mut dyn BufRead) -> super::ChallengeSolverResult {
         let mut input_buf = String::new();
         input
             .read_to_string(&mut input_buf)
@@ -55,7 +50,7 @@ impl ChallengeSolver for Solver15 {
 
         println!("tuning frequency = {}", bp.x * 4_000_000 + bp.y);
 
-        Ok(())
+        Ok(Box::new(()))
     }
 }
 

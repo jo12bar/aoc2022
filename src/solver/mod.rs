@@ -1,6 +1,8 @@
-use std::{collections::HashMap, fmt, fs, io};
+use std::{any::Any, collections::HashMap, fmt, fs, io};
 
 use crate::challenge::{ChallengeNumber, Subchallenge};
+
+mod macros; // must be defined before other modules!
 
 mod solver01;
 mod solver02;
@@ -22,6 +24,9 @@ mod solver17;
 mod solver18;
 mod solver19;
 mod solver20;
+mod solver21;
+
+pub(self) use macros::challenge_solver_test_boilerplate;
 
 /// A solver for a single challenge.
 ///
@@ -31,13 +36,15 @@ trait ChallengeSolver: fmt::Debug {
     fn challenge_number(&self) -> ChallengeNumber;
 
     /// Solve subchallenge A.
-    fn solve_a(&mut self, input: io::BufReader<fs::File>) -> color_eyre::Result<()>;
+    fn solve_a(&mut self, input: &mut dyn io::BufRead) -> ChallengeSolverResult;
 
     /// Solve subchallenge B.
-    fn solve_b(&mut self, input: io::BufReader<fs::File>) -> color_eyre::Result<()>;
+    fn solve_b(&mut self, input: &mut dyn io::BufRead) -> ChallengeSolverResult;
 }
 
 type DynamicChallengeSolver = Box<dyn ChallengeSolver>;
+
+pub type ChallengeSolverResult = color_eyre::Result<Box<dyn Any>>;
 
 pub struct Solver {
     challenge_solvers: HashMap<ChallengeNumber, DynamicChallengeSolver>,
@@ -76,6 +83,7 @@ impl Solver {
             solver18::Solver18,
             solver19::Solver19,
             solver20::Solver20,
+            solver21::Solver21,
         ];
 
         let mut challenge_solvers = HashMap::new();
@@ -98,12 +106,12 @@ impl Solver {
         &mut self,
         challenge: ChallengeNumber,
         subchallenge: Subchallenge,
-        input: io::BufReader<fs::File>,
-    ) -> Result<(), SolveError> {
+        mut input: io::BufReader<fs::File>,
+    ) -> Result<Box<dyn Any>, SolveError> {
         if let Some(solver) = self.challenge_solvers.get_mut(&challenge) {
             match subchallenge {
-                Subchallenge::A => Ok(solver.solve_a(input)?),
-                Subchallenge::B => Ok(solver.solve_b(input)?),
+                Subchallenge::A => Ok(solver.solve_a(&mut input)?),
+                Subchallenge::B => Ok(solver.solve_b(&mut input)?),
             }
         } else {
             Err(SolveError::NoSolverLoaded(challenge))

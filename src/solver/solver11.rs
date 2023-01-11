@@ -1,9 +1,6 @@
 mod parse;
 
-use std::{
-    fs::File,
-    io::{BufReader, Read},
-};
+use std::io::BufRead;
 
 use color_eyre::eyre::Context;
 use miette::GraphicalReportHandler;
@@ -24,7 +21,7 @@ impl ChallengeSolver for Solver11 {
         11
     }
 
-    fn solve_a(&mut self, mut input: BufReader<File>) -> color_eyre::Result<()> {
+    fn solve_a(&mut self, input: &mut dyn BufRead) -> super::ChallengeSolverResult {
         // Parse the monkeys
         let mut input_buf = String::new();
         input
@@ -84,10 +81,10 @@ impl ChallengeSolver for Solver11 {
         let monkey_business = all_inspect_counts.into_iter().take(2).product::<u128>();
         println!("\nMonkey business: {monkey_business}");
 
-        Ok(())
+        Ok(Box::new(()))
     }
 
-    fn solve_b(&mut self, mut input: BufReader<File>) -> color_eyre::Result<()> {
+    fn solve_b(&mut self, input: &mut dyn BufRead) -> super::ChallengeSolverResult {
         // Parse the monkeys
         let mut input_buf = String::new();
         input
@@ -147,7 +144,7 @@ impl ChallengeSolver for Solver11 {
         let monkey_business = all_inspect_counts.into_iter().take(2).product::<u128>();
         println!("\nMonkey business: {monkey_business}");
 
-        Ok(())
+        Ok(Box::new(()))
     }
 }
 

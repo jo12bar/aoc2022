@@ -11,7 +11,7 @@ impl ChallengeSolver for Solver01 {
         1
     }
 
-    fn solve_a(&mut self, input: std::io::BufReader<std::fs::File>) -> color_eyre::Result<()> {
+    fn solve_a(&mut self, input: &mut dyn BufRead) -> super::ChallengeSolverResult {
         let mut max = 0_u64;
         let mut current = 0_u64;
 
@@ -31,10 +31,10 @@ impl ChallengeSolver for Solver01 {
 
         println!("Max calorie count: {max}");
 
-        Ok(())
+        Ok(Box::new(()))
     }
 
-    fn solve_b(&mut self, input: std::io::BufReader<std::fs::File>) -> color_eyre::Result<()> {
+    fn solve_b(&mut self, input: &mut dyn BufRead) -> super::ChallengeSolverResult {
         let mut top_three = [0_u64; 3];
         let mut current = 0_u64;
 
@@ -65,6 +65,6 @@ impl ChallengeSolver for Solver01 {
         println!("Top three calorie counts: {top_three:?}");
         println!("Sum: {}", top_three.iter().sum::<u64>());
 
-        Ok(())
+        Ok(Box::new(()))
     }
 }

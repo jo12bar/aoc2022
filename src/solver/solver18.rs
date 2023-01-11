@@ -1,7 +1,6 @@
 use std::{
     collections::{hash_map::Entry, HashMap},
-    fs::File,
-    io::{BufRead, BufReader},
+    io::BufRead,
 };
 
 use color_eyre::eyre::{eyre, Context};
@@ -16,7 +15,7 @@ impl super::ChallengeSolver for Solver18 {
         18
     }
 
-    fn solve_a(&mut self, input: BufReader<File>) -> color_eyre::Result<()> {
+    fn solve_a(&mut self, input: &mut dyn BufRead) -> super::ChallengeSolverResult {
         let (world, world_bounds) =
             parse_input(input).wrap_err("Could not parse challenge input to a set of points")?;
 
@@ -25,10 +24,10 @@ impl super::ChallengeSolver for Solver18 {
         let surface_area = calc_surface_area(&world);
         println!("surface area = {surface_area}");
 
-        Ok(())
+        Ok(Box::new(()))
     }
 
-    fn solve_b(&mut self, input: BufReader<File>) -> color_eyre::Result<()> {
+    fn solve_b(&mut self, input: &mut dyn BufRead) -> super::ChallengeSolverResult {
         let (mut world, mut world_bounds) =
             parse_input(input).wrap_err("Could not parse challenge input to a set of points")?;
 
@@ -121,7 +120,7 @@ impl super::ChallengeSolver for Solver18 {
         let surface_area = calc_surface_area(&world);
         println!("surface area = {surface_area}");
 
-        Ok(())
+        Ok(Box::new(()))
     }
 }
 
@@ -146,7 +145,7 @@ struct WorldBounds {
     pub z_max: i32,
 }
 
-fn parse_input(input: BufReader<File>) -> color_eyre::Result<(World, WorldBounds)> {
+fn parse_input(input: &mut dyn BufRead) -> color_eyre::Result<(World, WorldBounds)> {
     let mut points = World::new();
 
     let mut bounds = WorldBounds {

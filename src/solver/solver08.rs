@@ -1,7 +1,4 @@
-use std::{
-    fs::File,
-    io::{BufReader, Read},
-};
+use std::io::BufRead;
 
 use color_eyre::eyre::Context;
 
@@ -17,7 +14,7 @@ impl ChallengeSolver for Solver08 {
         8
     }
 
-    fn solve_a(&mut self, mut input: BufReader<File>) -> color_eyre::Result<()> {
+    fn solve_a(&mut self, input: &mut dyn BufRead) -> super::ChallengeSolverResult {
         let mut grid = String::new();
         input
             .read_to_string(&mut grid)
@@ -43,10 +40,10 @@ impl ChallengeSolver for Solver08 {
 
         println!("Number of visible trees: {num_visible_cells}");
 
-        Ok(())
+        Ok(Box::new(()))
     }
 
-    fn solve_b(&mut self, mut input: BufReader<File>) -> color_eyre::Result<()> {
+    fn solve_b(&mut self, input: &mut dyn BufRead) -> super::ChallengeSolverResult {
         let mut grid = String::new();
         input
             .read_to_string(&mut grid)
@@ -66,7 +63,7 @@ impl ChallengeSolver for Solver08 {
         println!("Best location: {best_place:?}");
         println!("      ↳ score: {best_score}");
 
-        Ok(())
+        Ok(Box::new(()))
     }
 }
 

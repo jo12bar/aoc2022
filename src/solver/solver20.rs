@@ -1,7 +1,4 @@
-use std::{
-    fs::File,
-    io::{BufRead, BufReader},
-};
+use std::io::BufRead;
 
 use color_eyre::eyre::Context;
 
@@ -15,27 +12,26 @@ impl super::ChallengeSolver for Solver20 {
         20
     }
 
-    fn solve_a(&mut self, input: BufReader<File>) -> color_eyre::Result<()> {
+    fn solve_a(&mut self, input: &mut dyn BufRead) -> super::ChallengeSolverResult {
         let nums = parse(input).wrap_err("Failed to parse challenge input")?;
 
-        println!("grove coordinate sum = {}", solve(nums, 1, 1));
+        let res = solve(nums, 1, 1);
+        println!("grove coordinate sum = {res}");
 
-        Ok(())
+        Ok(Box::new(res))
     }
 
-    fn solve_b(&mut self, input: BufReader<File>) -> color_eyre::Result<()> {
+    fn solve_b(&mut self, input: &mut dyn BufRead) -> super::ChallengeSolverResult {
         let nums = parse(input).wrap_err("Failed to parse challenge input")?;
 
-        println!(
-            "grove coordinate sum = {}",
-            solve(nums, PART_B_DECRYPTION_KEY, 10)
-        );
+        let res = solve(nums, PART_B_DECRYPTION_KEY, 10);
+        println!("grove coordinate sum = {res}");
 
-        Ok(())
+        Ok(Box::new(res))
     }
 }
 
-fn parse(input: BufReader<File>) -> color_eyre::Result<Vec<i64>> {
+fn parse(input: &mut dyn BufRead) -> color_eyre::Result<Vec<i64>> {
     let mut nums = Vec::new();
 
     for line in input.lines() {
@@ -125,32 +121,10 @@ fn find_target(
         .unwrap()
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    fn sample_input() -> Vec<i64> {
-        vec![1, 2, -3, 3, -2, 0, 4]
-    }
-
-    const SAMPLE_SOL_A: i64 = 3;
-    const SAMPLE_SOL_B: i64 = 1623178306;
-
-    #[test]
-    fn test_a() -> color_eyre::Result<()> {
-        let nums = sample_input();
-
-        assert_eq!(solve(nums, 1, 1), SAMPLE_SOL_A);
-
-        Ok(())
-    }
-
-    #[test]
-    fn test_b() -> color_eyre::Result<()> {
-        let nums = sample_input();
-
-        assert_eq!(solve(nums, PART_B_DECRYPTION_KEY, 10), SAMPLE_SOL_B);
-
-        Ok(())
+super::challenge_solver_test_boilerplate! {
+    Solver20;
+    "1\n2\n-3\n3\n-2\n0\n4" => {
+        a as i64: 3,
+        b as i64: 1623178306,
     }
 }

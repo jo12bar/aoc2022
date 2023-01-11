@@ -13,7 +13,7 @@ impl ChallengeSolver for Solver06 {
         6
     }
 
-    fn solve_a(&mut self, mut input: std::io::BufReader<std::fs::File>) -> color_eyre::Result<()> {
+    fn solve_a(&mut self, input: &mut dyn BufRead) -> super::ChallengeSolverResult {
         let mut buf = String::new();
         input.read_line(&mut buf).unwrap();
 
@@ -45,10 +45,10 @@ impl ChallengeSolver for Solver06 {
             println!("\nFound marker `{marker}` after processing {processed_count} characters");
         }
 
-        Ok(())
+        Ok(Box::new(()))
     }
 
-    fn solve_b(&mut self, mut input: std::io::BufReader<std::fs::File>) -> color_eyre::Result<()> {
+    fn solve_b(&mut self, input: &mut dyn BufRead) -> super::ChallengeSolverResult {
         let mut buf = String::new();
         input.read_line(&mut buf).unwrap();
 
@@ -80,6 +80,6 @@ impl ChallengeSolver for Solver06 {
             println!("\nFound marker `{marker}` after processing {processed_count} characters");
         }
 
-        Ok(())
+        Ok(Box::new(()))
     }
 }

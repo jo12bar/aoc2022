@@ -1,8 +1,7 @@
 use std::{
     collections::{HashMap, HashSet},
     fmt,
-    fs::File,
-    io::{self, BufReader, Read},
+    io::{self, BufRead},
     time::{Duration, Instant},
 };
 
@@ -37,7 +36,7 @@ impl ChallengeSolver for Solver12 {
         12
     }
 
-    fn solve_a(&mut self, mut input: BufReader<File>) -> color_eyre::Result<()> {
+    fn solve_a(&mut self, input: &mut dyn BufRead) -> super::ChallengeSolverResult {
         // parse grid
         let mut input_buf = String::new();
         input
@@ -75,10 +74,10 @@ impl ChallengeSolver for Solver12 {
         // Remember to unwrap the result of running the app AFTER restoring the terminal
         res?;
 
-        Ok(())
+        Ok(Box::new(()))
     }
 
-    fn solve_b(&mut self, mut input: BufReader<File>) -> color_eyre::Result<()> {
+    fn solve_b(&mut self, input: &mut dyn BufRead) -> super::ChallengeSolverResult {
         // parse grid
         let mut input_buf = String::new();
         input
@@ -116,7 +115,7 @@ impl ChallengeSolver for Solver12 {
         // Remember to unwrap the result of running the app AFTER restoring the terminal
         res?;
 
-        Ok(())
+        Ok(Box::new(()))
     }
 }
 

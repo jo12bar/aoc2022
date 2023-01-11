@@ -11,7 +11,7 @@ impl ChallengeSolver for Solver03 {
         3
     }
 
-    fn solve_a(&mut self, input: std::io::BufReader<std::fs::File>) -> color_eyre::Result<()> {
+    fn solve_a(&mut self, input: &mut dyn BufRead) -> super::ChallengeSolverResult {
         let mut compartment_a = HashSet::new();
         let mut compartment_b = HashSet::new();
 
@@ -49,10 +49,10 @@ impl ChallengeSolver for Solver03 {
 
         println!("Interseciton item priority sum: {intersection_priority_sum}");
 
-        Ok(())
+        Ok(Box::new(()))
     }
 
-    fn solve_b(&mut self, input: std::io::BufReader<std::fs::File>) -> color_eyre::Result<()> {
+    fn solve_b(&mut self, input: &mut dyn BufRead) -> super::ChallengeSolverResult {
         let mut elf_one = HashSet::new();
         let mut elf_two = HashSet::new();
         let mut elf_three = HashSet::new();
@@ -96,7 +96,7 @@ impl ChallengeSolver for Solver03 {
 
         println!("Interseciton item priority sum: {intersection_priority_sum}");
 
-        Ok(())
+        Ok(Box::new(()))
     }
 }
 

@@ -1,4 +1,4 @@
-use std::{collections::HashMap, io::Read};
+use std::{collections::HashMap, io::BufRead};
 
 use color_eyre::eyre::Context;
 use itertools::Itertools;
@@ -21,7 +21,7 @@ impl ChallengeSolver for Solver16 {
         16
     }
 
-    fn solve_a(&mut self, mut input: std::io::BufReader<std::fs::File>) -> color_eyre::Result<()> {
+    fn solve_a(&mut self, input: &mut dyn BufRead) -> super::ChallengeSolverResult {
         let mut input_buf = String::new();
         input
             .read_to_string(&mut input_buf)
@@ -41,10 +41,10 @@ impl ChallengeSolver for Solver16 {
         let state = state.apply_best_moves(&mut best);
         println!("final_pressure = {}", state.pressure);
 
-        Ok(())
+        Ok(Box::new(()))
     }
 
-    fn solve_b(&mut self, mut input: std::io::BufReader<std::fs::File>) -> color_eyre::Result<()> {
+    fn solve_b(&mut self, input: &mut dyn BufRead) -> super::ChallengeSolverResult {
         let mut input_buf = String::new();
         input
             .read_to_string(&mut input_buf)
@@ -73,7 +73,7 @@ impl ChallengeSolver for Solver16 {
 
         println!("final_pressure = {best_pressure}");
 
-        Ok(())
+        Ok(Box::new(()))
     }
 }
 

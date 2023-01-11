@@ -1,9 +1,8 @@
 use std::{
     collections::{HashSet, VecDeque},
     fmt,
-    fs::File,
     hash::Hash,
-    io::{self, BufRead, BufReader},
+    io::{self, BufRead},
     ops,
     time::{Duration, Instant},
 };
@@ -47,7 +46,7 @@ impl ChallengeSolver for Solver09 {
         9
     }
 
-    fn solve_a(&mut self, input: BufReader<File>) -> color_eyre::Result<()> {
+    fn solve_a(&mut self, input: &mut dyn BufRead) -> super::ChallengeSolverResult {
         // setup terminal
         enable_raw_mode().wrap_err("Could not initialize terminal UI")?;
         let mut stdout = io::stdout();
@@ -78,10 +77,10 @@ impl ChallengeSolver for Solver09 {
         // Remember to unwrap the result of running the app AFTER restoring the terminal
         res?;
 
-        Ok(())
+        Ok(Box::new(()))
     }
 
-    fn solve_b(&mut self, input: BufReader<File>) -> color_eyre::Result<()> {
+    fn solve_b(&mut self, input: &mut dyn BufRead) -> super::ChallengeSolverResult {
         // setup terminal
         enable_raw_mode().wrap_err("Could not initialize terminal UI")?;
         let mut stdout = io::stdout();
@@ -112,7 +111,7 @@ impl ChallengeSolver for Solver09 {
         // Remember to unwrap the result of running the app AFTER restoring the terminal
         res?;
 
-        Ok(())
+        Ok(Box::new(()))
     }
 }
 
@@ -125,7 +124,7 @@ struct AppA {
 }
 
 impl AppA {
-    fn new(input: BufReader<File>) -> color_eyre::Result<Self> {
+    fn new(input: &mut dyn BufRead) -> color_eyre::Result<Self> {
         let instructions = input
             .lines()
             .map(|l| -> color_eyre::Result<Instruction> {
@@ -402,7 +401,7 @@ struct AppB {
 }
 
 impl AppB {
-    fn new(input: BufReader<File>) -> color_eyre::Result<Self> {
+    fn new(input: &mut dyn BufRead) -> color_eyre::Result<Self> {
         let instructions = input
             .lines()
             .map(|l| -> color_eyre::Result<Instruction> {

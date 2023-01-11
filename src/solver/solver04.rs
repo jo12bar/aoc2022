@@ -11,7 +11,7 @@ impl ChallengeSolver for Solver04 {
         4
     }
 
-    fn solve_a(&mut self, input: std::io::BufReader<std::fs::File>) -> color_eyre::Result<()> {
+    fn solve_a(&mut self, input: &mut dyn BufRead) -> super::ChallengeSolverResult {
         let mut containing_range_count = 0;
 
         for line in input.lines() {
@@ -42,10 +42,10 @@ impl ChallengeSolver for Solver04 {
 
         println!("Containing range count: {containing_range_count}");
 
-        Ok(())
+        Ok(Box::new(()))
     }
 
-    fn solve_b(&mut self, input: std::io::BufReader<std::fs::File>) -> color_eyre::Result<()> {
+    fn solve_b(&mut self, input: &mut dyn BufRead) -> super::ChallengeSolverResult {
         let mut overlapping_range_count = 0;
 
         for line in input.lines() {
@@ -74,7 +74,7 @@ impl ChallengeSolver for Solver04 {
 
         println!("Overlapping range count: {overlapping_range_count}");
 
-        Ok(())
+        Ok(Box::new(()))
     }
 }
 

@@ -21,7 +21,7 @@ impl ChallengeSolver for Solver07 {
         7
     }
 
-    fn solve_a(&mut self, input: std::io::BufReader<std::fs::File>) -> color_eyre::Result<()> {
+    fn solve_a(&mut self, input: &mut dyn BufRead) -> super::ChallengeSolverResult {
         let mut vm = Vm::new().wrap_err("Couldn't create VM")?;
 
         for line in input.lines() {
@@ -77,10 +77,10 @@ impl ChallengeSolver for Solver07 {
 
         println!("\nDone! Sum of sizes = {sum}");
 
-        Ok(())
+        Ok(Box::new(()))
     }
 
-    fn solve_b(&mut self, input: std::io::BufReader<std::fs::File>) -> color_eyre::Result<()> {
+    fn solve_b(&mut self, input: &mut dyn BufRead) -> super::ChallengeSolverResult {
         let mut vm = Vm::new().wrap_err("Couldn't create VM")?;
 
         for line in input.lines() {
@@ -147,7 +147,7 @@ impl ChallengeSolver for Solver07 {
         println!("\nFound directory of size {removed_dir_size} to remove!");
         println!("(path: {})", dir_to_remove.data().path);
 
-        Ok(())
+        Ok(Box::new(()))
     }
 }
 

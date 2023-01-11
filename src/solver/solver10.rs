@@ -1,8 +1,4 @@
-use std::{
-    fmt,
-    fs::File,
-    io::{BufRead, BufReader},
-};
+use std::{fmt, io::BufRead};
 
 use color_eyre::eyre::Context;
 use nom::{
@@ -24,7 +20,7 @@ impl ChallengeSolver for Solver10 {
         10
     }
 
-    fn solve_a(&mut self, input: BufReader<File>) -> color_eyre::Result<()> {
+    fn solve_a(&mut self, input: &mut dyn BufRead) -> super::ChallengeSolverResult {
         // Parse instructions
         let instructions = input
             .lines()
@@ -71,10 +67,10 @@ impl ChallengeSolver for Solver10 {
         println!("total: {total}");
         println!("interesting count: {count}");
 
-        Ok(())
+        Ok(Box::new(()))
     }
 
-    fn solve_b(&mut self, input: BufReader<File>) -> color_eyre::Result<()> {
+    fn solve_b(&mut self, input: &mut dyn BufRead) -> super::ChallengeSolverResult {
         // Parse instructions
         let instructions = input
             .lines()
@@ -99,7 +95,7 @@ impl ChallengeSolver for Solver10 {
             }
         }
 
-        Ok(())
+        Ok(Box::new(()))
     }
 }
 

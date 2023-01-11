@@ -1,8 +1,7 @@
 use std::{
     cmp::{self, Ordering},
     fmt,
-    fs::File,
-    io::{BufRead, BufReader, Read},
+    io::BufRead,
 };
 
 use color_eyre::eyre::Context;
@@ -69,7 +68,7 @@ impl ChallengeSolver for Solver13 {
         13
     }
 
-    fn solve_a(&mut self, mut input: BufReader<File>) -> color_eyre::Result<()> {
+    fn solve_a(&mut self, input: &mut dyn BufRead) -> super::ChallengeSolverResult {
         let mut input_buf = String::new();
         input
             .read_to_string(&mut input_buf)
@@ -98,10 +97,10 @@ impl ChallengeSolver for Solver13 {
 
         println!("\n---\n\nsum = {sum}");
 
-        Ok(())
+        Ok(Box::new(()))
     }
 
-    fn solve_b(&mut self, input: BufReader<File>) -> color_eyre::Result<()> {
+    fn solve_b(&mut self, input: &mut dyn BufRead) -> super::ChallengeSolverResult {
         let dividers = vec![
             Node::List(vec![Node::Number(2)]),
             Node::List(vec![Node::Number(6)]),
@@ -124,6 +123,6 @@ impl ChallengeSolver for Solver13 {
 
         println!("decoder_key = {decoder_key}");
 
-        Ok(())
+        Ok(Box::new(()))
     }
 }

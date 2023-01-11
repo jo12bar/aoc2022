@@ -1,9 +1,4 @@
-use std::{
-    collections::HashMap,
-    fmt,
-    fs::File,
-    io::{BufRead, BufReader},
-};
+use std::{collections::HashMap, fmt, io::BufRead};
 
 use itertools::Itertools;
 use owo_colors::{colors::*, OwoColorize, Rgb};
@@ -25,7 +20,7 @@ impl super::ChallengeSolver for Solver17 {
         17
     }
 
-    fn solve_a(&mut self, input: BufReader<File>) -> color_eyre::Result<()> {
+    fn solve_a(&mut self, input: &mut dyn BufRead) -> super::ChallengeSolverResult {
         let target = 2022;
         let verbose_output = false;
 
@@ -101,10 +96,10 @@ impl super::ChallengeSolver for Solver17 {
         }
         println!("== Final tower height: {} ==", state.top);
 
-        Ok(())
+        Ok(Box::new(()))
     }
 
-    fn solve_b(&mut self, input: BufReader<File>) -> color_eyre::Result<()> {
+    fn solve_b(&mut self, input: &mut dyn BufRead) -> super::ChallengeSolverResult {
         let target = 1_000_000_000_000;
         let verbose_output = false;
 
@@ -248,7 +243,7 @@ impl super::ChallengeSolver for Solver17 {
         );
         println!("({} levels added by repeats)", state.added_by_repeats);
 
-        Ok(())
+        Ok(Box::new(()))
     }
 }
 

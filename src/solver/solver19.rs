@@ -1,7 +1,4 @@
-use std::{
-    fs::File,
-    io::{BufReader, Read},
-};
+use std::io::BufRead;
 
 use color_eyre::eyre::Context;
 use rayon::prelude::*;
@@ -18,7 +15,7 @@ impl super::ChallengeSolver for Solver19 {
         19
     }
 
-    fn solve_a(&mut self, mut input: BufReader<File>) -> color_eyre::Result<()> {
+    fn solve_a(&mut self, input: &mut dyn BufRead) -> super::ChallengeSolverResult {
         let start_time = std::time::Instant::now();
 
         let mut input_buf = String::new();
@@ -33,10 +30,10 @@ impl super::ChallengeSolver for Solver19 {
 
         println!("elapsed time: {:?}", start_time.elapsed());
 
-        Ok(())
+        Ok(Box::new(cumulative_quality))
     }
 
-    fn solve_b(&mut self, mut input: BufReader<File>) -> color_eyre::Result<()> {
+    fn solve_b(&mut self, input: &mut dyn BufRead) -> super::ChallengeSolverResult {
         let start_time = std::time::Instant::now();
 
         let mut input_buf = String::new();
@@ -51,7 +48,7 @@ impl super::ChallengeSolver for Solver19 {
 
         println!("elapsed time: {:?}", start_time.elapsed());
 
-        Ok(())
+        Ok(Box::new(geode_product))
     }
 }
 
@@ -198,24 +195,12 @@ impl State {
     }
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    const SAMPLE_INPUT: &str = "Blueprint 1: Each ore robot costs 4 ore. Each clay robot costs 2 ore. Each obsidian robot costs 3 ore and 14 clay. Each geode robot costs 2 ore and 7 obsidian.\n\
-                                Blueprint 2: Each ore robot costs 2 ore. Each clay robot costs 3 ore. Each obsidian robot costs 3 ore and 8 clay. Each geode robot costs 3 ore and 12 obsidian.";
-
-    #[test]
-    fn test_a() -> color_eyre::Result<()> {
-        assert_eq!(part_a(&parse::parse_input(SAMPLE_INPUT)?), 33);
-
-        Ok(())
-    }
-
-    #[test]
-    fn test_b() -> color_eyre::Result<()> {
-        assert_eq!(part_b(&parse::parse_input(SAMPLE_INPUT)?), 56 * 62);
-
-        Ok(())
-    }
+super::challenge_solver_test_boilerplate! {
+    Solver19;
+        "Blueprint 1: Each ore robot costs 4 ore. Each clay robot costs 2 ore. Each obsidian robot costs 3 ore and 14 clay. Each geode robot costs 2 ore and 7 obsidian.\n\
+         Blueprint 2: Each ore robot costs 2 ore. Each clay robot costs 3 ore. Each obsidian robot costs 3 ore and 8 clay. Each geode robot costs 3 ore and 12 obsidian."
+     => {
+        a as usize: 33,
+        b as usize: 56 * 62,
+     }
 }

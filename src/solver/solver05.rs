@@ -15,7 +15,7 @@ impl ChallengeSolver for Solver05 {
         5
     }
 
-    fn solve_a(&mut self, input: std::io::BufReader<std::fs::File>) -> color_eyre::Result<()> {
+    fn solve_a(&mut self, input: &mut dyn BufRead) -> super::ChallengeSolverResult {
         // We can assume that there will always be 9 stacks of crates.
         const EMPTY_STACK: Vec<Crate> = Vec::new();
         let mut stacks: [Vec<Crate>; 9] = [EMPTY_STACK; 9];
@@ -107,10 +107,10 @@ impl ChallengeSolver for Solver05 {
 
         println!("\n\nStack tops: {stack_tops}");
 
-        Ok(())
+        Ok(Box::new(()))
     }
 
-    fn solve_b(&mut self, input: std::io::BufReader<std::fs::File>) -> color_eyre::Result<()> {
+    fn solve_b(&mut self, input: &mut dyn BufRead) -> super::ChallengeSolverResult {
         // We can assume that there will always be 9 stacks of crates.
         const EMPTY_STACK: Vec<Crate> = Vec::new();
         let mut stacks: [Vec<Crate>; 9] = [EMPTY_STACK; 9];
@@ -205,7 +205,7 @@ impl ChallengeSolver for Solver05 {
 
         println!("\n\nStack tops: {stack_tops}");
 
-        Ok(())
+        Ok(Box::new(()))
     }
 }
 

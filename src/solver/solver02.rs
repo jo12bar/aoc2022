@@ -101,7 +101,7 @@ impl ChallengeSolver for Solver02 {
         2
     }
 
-    fn solve_a(&mut self, input: std::io::BufReader<std::fs::File>) -> color_eyre::Result<()> {
+    fn solve_a(&mut self, input: &mut dyn BufRead) -> super::ChallengeSolverResult {
         let mut player_score = 0;
 
         for line in input.lines() {
@@ -133,10 +133,10 @@ impl ChallengeSolver for Solver02 {
 
         println!("Total player score: {player_score}");
 
-        Ok(())
+        Ok(Box::new(()))
     }
 
-    fn solve_b(&mut self, input: std::io::BufReader<std::fs::File>) -> color_eyre::Result<()> {
+    fn solve_b(&mut self, input: &mut dyn BufRead) -> super::ChallengeSolverResult {
         let mut player_score = 0;
 
         for line in input.lines() {
@@ -172,7 +172,7 @@ impl ChallengeSolver for Solver02 {
 
         println!("Total player score: {player_score}");
 
-        Ok(())
+        Ok(Box::new(()))
     }
 }
 
