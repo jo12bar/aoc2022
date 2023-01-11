@@ -5,6 +5,7 @@ macro_rules! challenge_solver_test_boilerplate {
             a as $res_type_a:ty : $res_a:expr,
             b as $res_type_b:ty : $res_b:expr $(,)?
         }
+        $($other_tests:tt)*
     } => {
         #[cfg(test)]
         mod tests {
@@ -16,6 +17,7 @@ macro_rules! challenge_solver_test_boilerplate {
 
             #[test]
             fn test_a() -> color_eyre::Result<()> {
+                color_eyre::install()?;
                 let mut input = Cursor::new(SAMPLE_INPUT);
                 let mut solver = $challenge_solver;
 
@@ -35,6 +37,7 @@ macro_rules! challenge_solver_test_boilerplate {
 
             #[test]
             fn test_b() -> color_eyre::Result<()> {
+                color_eyre::install()?;
                 let mut input = Cursor::new(SAMPLE_INPUT);
                 let mut solver = $challenge_solver;
 
@@ -51,6 +54,8 @@ macro_rules! challenge_solver_test_boilerplate {
 
                 Ok(())
             }
+
+            $($other_tests)*
         }
     };
 
@@ -60,6 +65,7 @@ macro_rules! challenge_solver_test_boilerplate {
             b as $res_type_b:ty : $res_b:expr,
             a as $res_type_a:ty : $res_a:expr $(,)?
         }
+        $($other_tests:tt)*
     } => {
         $crate::solver::macros::challenge_solver_test_boilerplate!{
             $challenge_solver;
@@ -67,6 +73,7 @@ macro_rules! challenge_solver_test_boilerplate {
                 a as $res_type_a: $res_a,
                 b as $res_type_b: $res_b,
             }
+            $($other_tests)*
         }
     };
 }
